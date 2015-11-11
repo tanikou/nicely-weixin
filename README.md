@@ -14,7 +14,7 @@
 	/* 也可如普通信息一样用on('other', function (req, res) {})来绑定 */
 	.other(function (req, res) {
 		var data = req.body.message;
-		data.Content = '暂不支持';
+		data.Content = '暂不支持处理此种类型的信息';
 		res.type('xml').send(weixin.packer.text(data));
 	})
 	;
