@@ -127,34 +127,11 @@ var WeiXin = function (token) {
 	this.packer  = new Packer();
 };
 // 事件开始
-WeiXin.prototype.text = function (callback) {
-	this.emitter.on('text', callback);
+WeiXin.prototype.on = function (type, callback) {
+	this.emitter.on(type, callback);
 	return this;
 };
-WeiXin.prototype.image = function (callback) {
-	this.emitter.on('image', callback);
-	return this;
-};
-WeiXin.prototype.voice = function (callback) {
-	this.emitter.on('voice', callback);
-	return this;
-};
-WeiXin.prototype.video = function (callback) {
-	this.emitter.on('video', callback);
-	return this;
-};
-WeiXin.prototype.location = function (callback) {
-	this.emitter.on('location', callback);
-	return this;
-};
-WeiXin.prototype.link = function (callback) {
-	this.emitter.on('link', callback);
-	return this;
-};
-WeiXin.prototype.event = function (callback) {
-	this.emitter.on('event', callback);
-	return this;
-};
+/* 额外的绑定other回调支持接受到没绑定事件的信息类型。也可用on('other', callback) */
 WeiXin.prototype.other = function (callback) {
 	this.emitter.on('other', callback);
 	return this;
@@ -175,17 +152,12 @@ WeiXin.prototype.handle = function (req, res) {
 	// 获取XML内容
 	var buf = '', data = {};
 	req.setEncoding('utf8');
-	req.on('data', function(chunk) { 
-		buf += chunk;
-	});
+	req.on('data', function(chunk) { buf += chunk; });
 	
 	// 内容接收完毕
 	req.on('end', function() {
 		xml2js.parseString(buf, function(err, json) {
-			if (err) {
-				res.status = 400;
-				return;
-			}
+			if (err) { res.status = 400; return; }
 
 			req.body    = req.body || {};
 			var message = req.body.message = {}, data = json.xml;
@@ -203,25 +175,5 @@ WeiXin.prototype.handle = function (req, res) {
 	});
 };
 // 读取并解析XML 结束
-
-/*
-var weixin = require('nicely-weixin')('tan');
-
-weixin
-.text(function (req, res) {
-	var data = req.body.message;
-	data.Content = '这里是文本回复';
-	res.type('xml').send(weixin.packer.text(data));
-})
-.other(function (req, res) {
-	var data = req.body.message;
-	data.Content = '暂不支持';
-	res.type('xml').send(weixin.packer.text(data));
-})
-;
-app.post('/', function(req, res) {
-	weixin.handle(req, res);
-});
-*/
 
 module.exports = function (token) { return new WeiXin(token); };
