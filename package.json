@@ -14,9 +14,14 @@
     "name": "victan",
     "email": "vcitan@qq.com"
   },
-  "license": "ISC",
   "dependencies": {
     "sha1": "^1.1.1",
     "xml2js": "^0.4.15"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tanikou/nicely-weixin.git"
+  },
+  "license": "MIT",
+  "readme": "nicely-weixin for nodejs"
 }
