@@ -1,0 +1,22 @@
+{
+  "name": "nicely-weixin",
+  "version": "0.0.2",
+  "description": "nicely-weixin",
+  "main": "weixin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "weixin",
+    "nicely-weixin"
+  ],
+  "author": {
+    "name": "victan",
+    "email": "vcitan@qq.com"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "sha1": "^1.1.1",
+    "xml2js": "^0.4.15"
+  }
+}
