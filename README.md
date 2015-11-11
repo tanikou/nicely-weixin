@@ -10,6 +10,11 @@
 		data.Content = '这里是文本回复';
 		res.type('xml').send(weixin.packer.text(data));
 	})
+	.on('image', function (req, res) {
+		var data = req.body.message;
+		data.MediaId = '这里填写MediaId';
+		res.type('xml').send(weixin.packer.image(data));
+	})
 	/* 统一处理不支持的信息类型。*/
 	/* 也可如普通信息一样用on('other', function (req, res) {})来绑定 */
 	.other(function (req, res) {
