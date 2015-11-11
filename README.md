@@ -1,6 +1,6 @@
 # nicely-weixin
 ```javascript
-	/* 参数为在微信公众平台设定的token, 在验证signature时使用 */
+	/* 参数为在微信公众平台设定的token, 在验证 服务器地址 时使用 */
 	var weixin = require('nicely-weixin')('tan');
 	weixin
 	/* 处理文本信息。其他信息有image, voice, video, music, link, news所有参数请参考微信文档：  */
