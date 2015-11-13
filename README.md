@@ -24,7 +24,8 @@ weixin
 	res.type('xml').send(weixin.packer.text(data));
 })
 ;
-/* 在router处理get请求，即绑定地址时验证signature用 */
+
+/* 在express的router处理get请求，即绑定地址时验证signature用 */
 router.get('/', function (req, res) {
 	res.status(200).send(weixin.signature(req));
 });
