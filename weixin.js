@@ -168,6 +168,10 @@ WeiXin.prototype.handle = function (req, res) {
 			
 			if (self.emitter.listeners(type).length > 0) {
 				self.emitter.emit(type, req, res);
+
+			} else if ('event' == type && self.emitter.listeners('event.' + message.Event).length > 0) {
+				self.emitter.emit('event.' + message.Event, req, res);
+				
 			} else {
 				self.emitter.emit('other', req, res);
 			}

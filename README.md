@@ -35,3 +35,5 @@ router.post('/', function (req, res) {
 	weixin.handle(req, res);
 });
 ```
+
+**当推送的是事件时即MsgType为event时**，比如订阅事件。可以用on('event', function (req, res){})，绑定所有event的处理，也可以用on('event.subscribe', function (req, res) {})这样针对具体的某一个处理
