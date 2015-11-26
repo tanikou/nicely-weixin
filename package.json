@@ -1,12 +1,13 @@
 {
   "name": "nicely-weixin",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "nicely-weixin",
   "main": "weixin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
+    "微信公众号",
     "weixin",
     "nicely-weixin"
   ],
