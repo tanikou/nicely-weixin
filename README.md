@@ -16,6 +16,11 @@ weixin
 	data.MediaId = '这里填写MediaId';
 	res.type('xml').send(weixin.packer.image(data));
 })
+.on('event.subscribe', function (req, res) {
+	var data = req.body.message;
+	data.Content = '欢迎关注我们';
+	res.type('xml').send(weixin.packer.text(data));
+})
 /* 统一处理不支持的信息类型。*/
 /* 也可如普通信息一样用on('other', function (req, res) {})来绑定 */
 .other(function (req, res) {
