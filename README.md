@@ -47,7 +47,7 @@ router.post('/', function (req, res) {
 ```javascript
 
 添加一个middleware
-const weixin = require('nicely-weixin')('yanmao');
+const weixin = require('nicely-weixin')('tan');
 module.exports = () => {
   return async (ctx, next) => {
     await weixin.parse(ctx.req)
@@ -65,7 +65,7 @@ module.exports = () => {
 const wechat = app.middlewares.wechat();
 
 /* 这是公众号设置用 */
-router.get('/wechat', wechat, controller.wechat.index);
+router.get('/wechat', controller.wechat.index);
 /* 添加对信息的处理 */
 router.post('/wechat', wechat, controller.wechat.signin);
 ```
@@ -75,13 +75,12 @@ router.post('/wechat', wechat, controller.wechat.signin);
 
 'use strict';
 const Controller = require('../core/controller');
-const weixin = require('nicely-weixin')('yanmao');
+const weixin = require('nicely-weixin')('tan');
 
 class WechatController extends Controller {
   async index () {
     this.ctx.status = 200;
-    console.log('signature', this.ctx.request.query);
-    this.ctx.body = weixin.signature(this.ctx.request);
+    this.ctx.body = weixin.signature(this.ctx.request.query);
   }
 
   async signin () {
