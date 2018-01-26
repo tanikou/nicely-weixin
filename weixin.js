@@ -137,13 +137,30 @@ WeiXin.prototype.other = function (callback) {
 	return this;
 };
 // 事件结束
-WeiXin.prototype.signature = function (req) {
+WeiXin.prototype.signature = function (query) {
 	// 按照字典排序
-	var array = [this.token, req.query.timestamp, req.query.nonce];
+	var array = [this.token, query.timestamp, query.nonce];
 	array.sort();
-	var valid = sha1(array.join('')) == req.query.signature;
+	var valid = sha1(array.join('')) == query.signature;
 	
-	return valid ? req.query.echostr : 'signature verification failed';
+	return valid ? query.echostr : 'signature verification failed';
+};
+// 读取并异步返回请求数据
+WeiXin.prototype.parse = function (req) {
+	var self = this;
+	return new Promise(function (resolve, reject) {
+		// 获取XML内容
+		var buf = '', data = {};
+		req.setEncoding('utf8');
+		req.on('data', function(chunk) { buf += chunk; });
+
+		// 内容接收完毕
+		req.on('end', function() {
+			xml2js.parseString(buf, function(err, json) {
+				err ? reject(err) : resolve(json.xml)
+			});
+		});
+	})
 };
 // 读取并解析XML 开始
 WeiXin.prototype.handle = function (req, res) {

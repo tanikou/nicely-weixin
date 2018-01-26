@@ -1,10 +1,10 @@
 {
   "name": "nicely-weixin",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "nicely-weixin",
   "main": "weixin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: 请使用公众号测试\" && exit 1"
   },
   "keywords": [
     "微信公众号",
