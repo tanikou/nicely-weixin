@@ -1,5 +1,6 @@
 # nicely-weixin
 当时在要用到微信时也百度过别的东西，看到有weiixn-api，node-weixin等等一些很多的东西，但都觉得他们写得太死不够灵活，里面的方法和属性完全又是他们自己定义的一些东西，我需要要看微信的API还要看他们的代码才写完程序，这样太累（此为个人看法无褒贬意思，他们中也很多好的东西，比我这处理的东西更多），所以我自己做了一个，on是调用的emitter的on，**当收到微信请求时会emit微信请求中的MsgType属性**，这样如果微信变更[微信公众平台开发者文档](http://mp.weixin.qq.com/wiki/17/fc9a27730e07b9126144d9c96eaf51f9.html)的type类型你也只需要在你自己代码里面变动一下就好，而不会因为nicely-weixin没有更新而导致程序不能正常运行。send的时候你也可用weixin.packer去包装返回数据也可以按官方的文档一样包装返回数据。**这样在接受和返回时都做到了最大的灵活。nicely-weixin主要只负责接受微信请求并转换成json数据**。其他一切都随你
+
 ```javascript
 /* 参数为在微信公众平台设定的token, 在验证 服务器地址 时使用 */
 var weixin = require('nicely-weixin')('tan');
@@ -39,6 +40,59 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
 	weixin.handle(req, res);
 });
+```
+
+**在eggjs中使用**
+
+```javascript
+
+/* 添加一个middleware */
+const weixin = require('nicely-weixin')('yanmao');
+module.exports = () => {
+  return async (ctx, next) => {
+    await weixin.parse(ctx.req)
+      .then(async (data) => {
+    	/* 解析请求中微信数据并设置到request.body, 当然你也可以放到其他地方去 */
+        ctx.request.body = Object.assign({}, ctx.request.body, data)
+      })
+    await next();
+  }
+};
+```
+
+```javascript
+
+/* 这是公众号设置用 */
+router.get('/wechat', controller.wechat.index);
+/* 添加对信息的处理 */
+router.post('/wechat', controller.wechat.signin);
+```
+
+对应的添加你自己的业务controller
+```javascript
+
+'use strict';
+const Controller = require('../core/controller');
+const weixin = require('nicely-weixin')('yanmao');
+
+class WechatController extends Controller {
+  async index () {
+    this.ctx.status = 200;
+    console.log('signature', this.ctx.request.query);
+    this.ctx.body = weixin.signature(this.ctx.request);
+  }
+
+  async signin () {
+    const data = this.ctx.request.body;
+    data.Content = '欢迎关注我们';
+
+    this.ctx.status = 200;
+    this.ctx.body = weixin.packer.text(data)
+  }
+}
+
+module.exports = WechatController;
+
 ```
 
 **当信息是事件即MsgType为event时**，比如订阅事件。可以用on('event', function (req, res){})，绑定所有event的处理，也可以用on('event.subscribe', function (req, res) {})这样针对具体的某一个处理
