@@ -62,11 +62,12 @@ module.exports = () => {
 
 配置路由
 ```javascript
+const wechat = app.middlewares.wechat();
 
 /* 这是公众号设置用 */
-router.get('/wechat', controller.wechat.index);
+router.get('/wechat', wechat, controller.wechat.index);
 /* 添加对信息的处理 */
-router.post('/wechat', controller.wechat.signin);
+router.post('/wechat', wechat, controller.wechat.signin);
 ```
 
 对应的添加你自己的业务controller
@@ -95,6 +96,6 @@ class WechatController extends Controller {
 module.exports = WechatController;
 ```
 
-`同理，你可以在任何架中把原始的req拿去weixin.parse然后拿到json格式的数据，其他的自己处理`
+`同理，你可以在任何架中 **把原始的req拿去weixin.parse** 然后拿到json格式的数据，其他的自己处理`
 
 **当信息是事件即MsgType为event时**，比如订阅事件。可以用on('event', function (req, res){})，绑定所有event的处理，也可以用on('event.subscribe', function (req, res) {})这样针对具体的某一个处理
