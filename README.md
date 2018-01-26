@@ -46,7 +46,7 @@ router.post('/', function (req, res) {
 
 ```javascript
 
-/* 添加一个middleware */
+添加一个middleware
 const weixin = require('nicely-weixin')('yanmao');
 module.exports = () => {
   return async (ctx, next) => {
@@ -60,6 +60,7 @@ module.exports = () => {
 };
 ```
 
+配置路由
 ```javascript
 
 /* 这是公众号设置用 */
@@ -92,7 +93,8 @@ class WechatController extends Controller {
 }
 
 module.exports = WechatController;
-
 ```
+
+`同理，你可以在任何架中把原始的req拿去weixin.parse然后拿到json格式的数据，其他的自己处理`
 
 **当信息是事件即MsgType为event时**，比如订阅事件。可以用on('event', function (req, res){})，绑定所有event的处理，也可以用on('event.subscribe', function (req, res) {})这样针对具体的某一个处理
